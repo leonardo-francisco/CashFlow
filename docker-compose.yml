@@ -1,0 +1,67 @@
+﻿version: '3.8'
+
+services:
+  # Servico da API
+  cashflow-api:
+    container_name: cashflow-api
+    build:
+      context: .
+      dockerfile: CashFlow.API/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5000:8080"   # HTTP
+      - "5001:8081"   # HTTPS
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      OPENAPI_MODE: "Docker"
+      Mongo__ConnectionString: "mongodb://mongo:27017"
+      Mongo__DatabaseName: "CashFlowDB"
+      ConnectionStrings__Redis: "redis:6379"
+      RabbitMq__HostName: "rabbitmq"
+      RabbitMq__Port: "5672"
+      RabbitMq__UserName: "guest"
+      RabbitMq__Password: "guest"
+      RabbitMq__Exchange: "transactions.exchange"
+    depends_on:
+      - mongo
+      - redis
+      - rabbitmq
+
+  # MongoDB
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Redis
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # RabbitMQ com painel de administracao
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"   # Porta para aplicacoes
+      - "15672:15672" # UI do RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  mongo_data:
+  redis_data:
+  rabbitmq_data:
