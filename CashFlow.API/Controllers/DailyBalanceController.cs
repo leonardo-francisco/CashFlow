@@ -1,6 +1,7 @@
 ﻿using CashFlow.Application.CQRS.Queries;
 using CashFlow.Application.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
@@ -9,6 +10,7 @@ namespace CashFlow.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DailyBalanceController : ControllerBase
     {
         private readonly IMediator _mediator;

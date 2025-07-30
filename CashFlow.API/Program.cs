@@ -1,7 +1,10 @@
 using CashFlow.API.Configurations;
 using CashFlow.Application;
 using CashFlow.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using System.Text;
 
 namespace CashFlow.API
 {
@@ -14,6 +17,7 @@ namespace CashFlow.API
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.Configure<AdminCredentials>(builder.Configuration.GetSection("AdminCredentials"));
             builder.Services.AddApplication(builder.Configuration);
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddCors(options =>
@@ -29,6 +33,30 @@ namespace CashFlow.API
                 options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
             });
             OpenApiCustomGenerator.AddOpenApiCustom(builder.Services);
+
+            var config = builder.Configuration;
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+             .AddJwtBearer(options =>
+             {
+                 var secret = config["Key:Secret"]!;
+                 var issuer = config["Key:Issuer"];
+                 var audience = config["Key:Audience"];
+             
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidIssuer = issuer,
+             
+                     ValidateAudience = true,
+                     ValidAudience = audience,
+             
+                     ValidateIssuerSigningKey = true,
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret)),
+             
+                     ValidateLifetime = true
+                 };
+             });
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
@@ -47,6 +75,7 @@ namespace CashFlow.API
             app.UseCors("AllowAllOrigins");
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

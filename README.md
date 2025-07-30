@@ -6,7 +6,7 @@
 
 - **Gerenciamento de Transações**: Adiciona lançamentos de crédito e débito com informações como data, valor e descrição.
 - **Consolidação Diária de Saldo**: Gera um relatório consolidado do saldo para cada dia, incluindo o total de débitos e créditos.
-- **Minimal API**: Interface para acesso e gerenciamento de transações e relatórios diários.
+- **OpenAPI Scalar**: Interface para acesso e gerenciamento de transações e relatórios diários.
 - **Escalabilidade e Resiliência**: Arquitetura preparada para crescimento e recuperação de falhas.
 
 ## Estrutura do Projeto
@@ -23,7 +23,10 @@ CashFlow/
 - **.NET 9 SDK**
 - **MongoDB** (executando localmente ou usando MongoDB Atlas)
 - **Scalar UI para API**
+- **RabbitMQ**
+- **Redis**
 - **SOLID**
+- **DDD**
 - **Clean Code**
 - **JWT**
 
@@ -46,15 +49,48 @@ docker run -d -p 27017:27017 --name CashFlow mongo
 ### 3. Configuração do Arquivo appsettings.json
 - **No diretório CashFlow.Presentation, crie um arquivo appsettings.json e configure a string de conexão do MongoDB**
 ```bash
-  "MongoDbSettings": {
+  "MongoSettings": {
     "ConnectionString": "mongodb://localhost:27017",
-    "DatabaseName": "CashFlowControlDB"
-  },
-  "JwtSettings": {
+    "DatabaseName": "CashFlowApp"
+},
+"AdminCredentials": {
+    "Username": "admin@cashflow.com.br",
+    "Password": "123456"
+},
+"Key": {
     "Secret": "fedaf7d8863b48e197b9287d492b708e",
-    "Issuer": "https://seu-servidor-auth",
-    "Audience": "seu-api"
-  }
+    "Issuer": "meuSistema",
+    "Audience": "meuSistemaUsuario"
+},
+"ConnectionStrings": {
+    "Redis": "localhost:6379"
+},
+"RabbitMq": {
+    "HostName": "localhost",
+    "Port": 5672,
+    "UserName": "guest",
+    "Password": "guest",
+    "Exchange": "transactions.exchange"
+},
+"Polly": {
+    "RetryCount": 3,
+    "CircuitBreakerAllowedFailures": 5,
+    "CircuitBreakerDuration": 30
+},
+"Logging": {
+    "LogLevel": {
+        "Default": "Information",
+        "Microsoft.AspNetCore": "Warning"
+    }
+},
+"AllowedHosts": "*"
+```
+- **Caso opte para executar via Docker o  arquivo appsettings.json deve ser diferente a string de conexão**
+```bash
+   "MongoSettings": {
+     "ConnectionString": "mongodb://mongo:27017",
+     "DatabaseName": "CashFlowApp"
+ }
 ```
 
 ## Executando a Aplicação
@@ -70,7 +106,7 @@ dotnet restore
 ```bash
 dotnet run --project CashFlow.API
 ```
-- **A aplicação será iniciada use ferramentas como Postman ou Swagger para testar os endpoints
+- **A aplicação será iniciada na rota Login deve ser usado as credenciais do AdminCredential para autenticar e testar os demais endpoints
 
 ### 3. Testando a Aplicação
 - **Para rodar os testes:
