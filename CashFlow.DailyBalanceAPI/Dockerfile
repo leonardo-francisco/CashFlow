@@ -14,8 +14,8 @@ EXPOSE 8083
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["CashFlow.DailyBalanceAPI.csproj", "./"]
-RUN dotnet restore "./CashFlow.DailyBalanceAPI.csproj"
+COPY ["CashFlow.DailyBalanceAPI/CashFlow.DailyBalanceAPI.csproj", "CashFlow.DailyBalanceAPI/"]
+RUN dotnet restore "./CashFlow.DailyBalanceAPI/CashFlow.DailyBalanceAPI.csproj"
 COPY . .
 WORKDIR "/src/CashFlow.DailyBalanceAPI"
 RUN dotnet build "./CashFlow.DailyBalanceAPI.csproj" -c %BUILD_CONFIGURATION -o /app/build

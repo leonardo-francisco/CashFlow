@@ -14,8 +14,8 @@ EXPOSE 8085
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["CashFlow.TransactionAPI.csproj", "./"]
-RUN dotnet restore "./CashFlow.TransactionAPI.csproj"
+COPY ["CashFlow.TransactionAPI/CashFlow.TransactionAPI.csproj", "CashFlow.TransactionAPI/"]
+RUN dotnet restore "./CashFlow.TransactionAPI/CashFlow.TransactionAPI.csproj"
 COPY . .
 WORKDIR "/src/CashFlow.TransactionAPI"
 RUN dotnet build "./CashFlow.TransactionAPI.csproj" -c %BUILD_CONFIGURATION -o /app/build
