@@ -118,7 +118,7 @@ dotnet test
 ## Endpoints Principais
 
 ### Transações
-- **POST /login**: Cria o token para autenticação das rotas
-- **POST /transactions**: Adiciona uma nova transação (crédito ou débito).
+- **POST /authentication/login**: Cria o token para autenticação das rotas
+- **POST /transaction**: Adiciona uma nova transação (crédito ou débito).
 - **GET /transaction/{date}**: Recupera uma transação pela data.
-- **GET /consolidation/{date}**: Recupera um balanço consolidado pela data.
+- **GET /dailyBalance/{date}**: Recupera um balanço consolidado pela data.
