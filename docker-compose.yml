@@ -3,11 +3,11 @@
 services:
   authentication-api:
     build:
-      context: ./CashFlow.AuthenticationAPI
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile-auth
     ports:
-      - "8080:5000"
-      - "8081:5001"
+      - "5000:8080"
+      - "5001:8081"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       OPENAPI_MODE: "Docker"
@@ -23,11 +23,11 @@ services:
 
   dailybalance-api:
     build:
-      context: ./CashFlow.DailyBalanceAPI
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile-daily
     ports:
-      - "8082:5002"
-      - "8083:5003"
+      - "5002:5002"
+      - "5003:8083"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       OPENAPI_MODE: "Docker"
@@ -49,11 +49,11 @@ services:
   
   transaction-api:
     build:
-      context: ./CashFlow.TransactionAPI
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile-transaction
     ports:
-      - "8084:5004"
-      - "8085:5005"
+      - "5004:5004"
+      - "5005:8085"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       OPENAPI_MODE: "Docker"

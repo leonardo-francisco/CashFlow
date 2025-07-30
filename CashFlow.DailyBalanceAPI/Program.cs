@@ -56,6 +56,10 @@ namespace CashFlow.DailyBalanceAPI
                  };
              });
             builder.Services.AddAuthorization();
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.ListenAnyIP(5002);
+            });
 
             var app = builder.Build();
 

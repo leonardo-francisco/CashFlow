@@ -17,15 +17,15 @@
       "applicationUrl": "https://localhost:7205;http://localhost:5236"
     },
     "Container (Dockerfile)": {
-      "commandName": "Docker",
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+        "commandName": "Docker",
+        "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/scalar",
         "environmentVariables": {
             "ASPNETCORE_HTTPS_PORTS": "8081",
             "ASPNETCORE_HTTP_PORTS": "8080",
             "OPENAPI_MODE": "Docker"
         },
-      "publishAllPorts": true,
-      "useSSL": true
+        "publishAllPorts": true,
+        "useSSL": true
     },
     "IIS Express": {
         "commandName": "IISExpress",

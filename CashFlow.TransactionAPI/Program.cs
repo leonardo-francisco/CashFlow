@@ -56,6 +56,10 @@ namespace CashFlow.TransactionAPI
                  };
              });
             builder.Services.AddAuthorization();
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.ListenAnyIP(5004);
+            });
 
             var app = builder.Build();
 
