@@ -1,6 +1,6 @@
-﻿using CashFlow.API.Controllers;
-using CashFlow.Application.CQRS.Queries;
+﻿using CashFlow.Application.CQRS.Queries;
 using CashFlow.Application.DTOs;
+using CashFlow.DailyBalanceAPI.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

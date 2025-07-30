@@ -1,5 +1,6 @@
-﻿using CashFlow.API.Configurations;
-using CashFlow.API.Controllers;
+﻿
+using CashFlow.AuthenticationAPI.Configurations;
+using CashFlow.AuthenticationAPI.Controllers;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.Options;

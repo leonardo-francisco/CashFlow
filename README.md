@@ -117,8 +117,55 @@ dotnet test
 
 ## Endpoints Principais
 
+### Autenticação
+- `POST /authentication/login`: Gera token JWT
+
 ### Transações
-- **POST /authentication/login**: Cria o token para autenticação das rotas
-- **POST /transaction**: Adiciona uma nova transação (crédito ou débito).
-- **GET /transaction/{date}**: Recupera uma transação pela data.
-- **GET /dailyBalance/{date}**: Recupera um balanço consolidado pela data.
+- `POST /transaction`: Adiciona uma nova transação (crédito ou débito).
+- `GET /transaction/{date}`: Recupera uma transação pela data.
+- `GET /dailyBalance/{date}`: Recupera um balanço consolidado pela data.
+
+## Arquitetura e Escalabilidade
+
+### Tecnologias e Padrões
+
+- CQRS com MediatR
+- Mensageria com RabbitMQ
+- Cache distribuído com Redis
+- Resiliência com Polly (retry + circuit breaker)
+- JWT para autenticação
+- OpenAPI Scalar UI
+
+### Componentes
+
+| Componente              | Responsabilidade                                   |
+|-------------------------|----------------------------------------------------|
+| Presentation            | API REST, autenticação e roteamento                |
+| Application             | Orquestração via CQRS, DTOs e comandos             |
+| Domain                  | Entidades e lógica de negócio                      |
+| Infrastructure          | Repositórios, MongoDB, Redis e mensageria          |
+
+## Escalabilidade e Resiliência
+
+- Escalável horizontalmente com múltiplas instâncias da API
+- Cache Redis compartilhado entre instâncias
+- RabbitMQ desacopla gravação e leitura (tolerância a falhas)
+- Circuit Breaker e Retry com Polly garantem resiliência
+- Funciona mesmo se Redis ou RabbitMQ estiverem offline
+
+## Requisitos Não Funcionais Atendidos
+
+| Requisito                           | Status |
+|------------------------------------|--------|
+| Serviços desacoplados              | ✅     |
+| Cache distribuído                  | ✅     |
+| Alta disponibilidade               | ✅     |
+| Tolerância a falhas                | ✅     |
+| Performance para 50 req/s          | ✅     |
+
+## Melhorias Futuras
+
+- Separação física das APIs em microsserviços reais
+- API Gateway e autenticação centralizada
+- Monitoramento com Prometheus + Grafana
+- Dashboard administrativo

@@ -1,8 +1,8 @@
-﻿using CashFlow.API.Controllers;
-using CashFlow.Application.CQRS.Commands;
+﻿using CashFlow.Application.CQRS.Commands;
 using CashFlow.Application.CQRS.Queries;
 using CashFlow.Application.DTOs;
 using CashFlow.Domain.Enums;
+using CashFlow.TransactionAPI.Controllers;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;

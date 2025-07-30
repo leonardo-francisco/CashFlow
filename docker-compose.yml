@@ -1,21 +1,67 @@
-﻿version: '3.8'
+﻿version: '3.9'
 
 services:
-  # Servico da API
-  cashflow-api:
-    container_name: cashflow-api
+  authentication-api:
     build:
-      context: .
-      dockerfile: CashFlow.API/Dockerfile
-    restart: unless-stopped
+      context: ./CashFlow.Authentication.API
+      dockerfile: Dockerfile
     ports:
-      - "5000:8080"   # HTTP
-      - "5001:8081"   # HTTPS
+      - "8080:5000"
+      - "8081:5001"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      OPENAPI_MODE: "Docker"
+      AdminCredentials__Username: "admin@cashflow.com.br"
+      AdminCredentials__Password: "123456"
+      Key__Secret: "fedaf7d8863b48e197b9287d492b708e"
+      Key__Issuer: "meuSistema"
+      Key__Audience: "meuSistemaUsuario"
+    depends_on:
+      - mongo
+      - redis
+      - rabbitmq
+
+  dailybalance-api:
+    build:
+      context: ./CashFlow.DailyBalance.API
+      dockerfile: Dockerfile
+    ports:
+      - "8082:5002"
+      - "8083:5003"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       OPENAPI_MODE: "Docker"
       Mongo__ConnectionString: "mongodb://mongo:27017"
       Mongo__DatabaseName: "CashFlowDB"
+      Key__Secret: "fedaf7d8863b48e197b9287d492b708e"
+      Key__Issuer: "meuSistema"
+      Key__Audience: "meuSistemaUsuario"
+      ConnectionStrings__Redis: "redis:6379"
+      RabbitMq__HostName: "rabbitmq"
+      RabbitMq__Port: "5672"
+      RabbitMq__UserName: "guest"
+      RabbitMq__Password: "guest"
+      RabbitMq__Exchange: "transactions.exchange"
+    depends_on:
+      - mongo
+      - redis
+      - rabbitmq
+  
+  transaction-api:
+    build:
+      context: ./CashFlow.Transaction.API
+      dockerfile: Dockerfile
+    ports:
+      - "8084:5004"
+      - "8085:5005"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      OPENAPI_MODE: "Docker"
+      Mongo__ConnectionString: "mongodb://mongo:27017"
+      Mongo__DatabaseName: "CashFlowDB"
+      Key__Secret: "fedaf7d8863b48e197b9287d492b708e"
+      Key__Issuer: "meuSistema"
+      Key__Audience: "meuSistemaUsuario"
       ConnectionStrings__Redis: "redis:6379"
       RabbitMq__HostName: "rabbitmq"
       RabbitMq__Port: "5672"
@@ -62,6 +108,4 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
 
 volumes:
-  mongo_data:
-  redis_data:
-  rabbitmq_data:
+  mongo-data:

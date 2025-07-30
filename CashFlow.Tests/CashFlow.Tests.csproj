@@ -20,8 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CashFlow.API\CashFlow.API.csproj" />
     <ProjectReference Include="..\CashFlow.Application\CashFlow.Application.csproj" />
+    <ProjectReference Include="..\CashFlow.AuthenticationAPI\CashFlow.AuthenticationAPI.csproj" />
+    <ProjectReference Include="..\CashFlow.DailyBalanceAPI\CashFlow.DailyBalanceAPI.csproj" />
+    <ProjectReference Include="..\CashFlow.TransactionAPI\CashFlow.TransactionAPI.csproj" />
   </ItemGroup>
 
 </Project>
