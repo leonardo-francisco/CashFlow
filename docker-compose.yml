@@ -3,7 +3,7 @@
 services:
   authentication-api:
     build:
-      context: ./CashFlow.Authentication.API
+      context: ./CashFlow.AuthenticationAPI
       dockerfile: Dockerfile
     ports:
       - "8080:5000"
@@ -23,7 +23,7 @@ services:
 
   dailybalance-api:
     build:
-      context: ./CashFlow.DailyBalance.API
+      context: ./CashFlow.DailyBalanceAPI
       dockerfile: Dockerfile
     ports:
       - "8082:5002"
@@ -49,7 +49,7 @@ services:
   
   transaction-api:
     build:
-      context: ./CashFlow.Transaction.API
+      context: ./CashFlow.TransactionAPI
       dockerfile: Dockerfile
     ports:
       - "8084:5004"
