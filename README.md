@@ -123,7 +123,10 @@ dotnet test
 ### Transações
 - `POST /transaction`: Adiciona uma nova transação (crédito ou débito).
 - `GET /transaction/{date}`: Recupera uma transação pela data.
+
+### Consolidação diária
 - `GET /dailyBalance/{date}`: Recupera um balanço consolidado pela data.
+
 
 ## Arquitetura e Escalabilidade
 
